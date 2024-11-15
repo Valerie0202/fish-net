@@ -9,18 +9,75 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            overflow: hidden;
+            background-color: #f0f8ff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f8ff;
+            position: relative;
         }
+
         h1 {
             color: #0077be;
+            z-index: 10;
+        }
+
+        .fish {
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background-color: orange;
+            border-radius: 50%;
+            transform: rotate(90deg);
+            animation: swim infinite linear;
+        }
+
+        .fish::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: orange;
+            border-radius: 50%;
+            top: 5px;
+            left: -5px;
+        }
+
+        @keyframes swim {
+            0% {
+                transform: translateX(-10%) rotate(90deg);
+            }
+            100% {
+                transform: translateX(110%) rotate(90deg);
+            }
+        }
+
+        /* Create multiple fish with different delays and speeds */
+        .fish:nth-child(odd) {
+            animation-duration: 8s;
+            animation-delay: calc(-1s * var(--i));
+        }
+
+        .fish:nth-child(even) {
+            animation-duration: 12s;
+            animation-delay: calc(-2s * var(--i));
         }
     </style>
 </head>
 <body>
     <h1>VALERIE’S AQUARIUM</h1>
+    <script>
+        // Generate multiple fish
+        const body = document.body;
+        for (let i = 0; i < 50; i++) {
+            const fish = document.createElement('div');
+            fish.className = 'fish';
+            fish.style.setProperty('--i', i);
+            fish.style.top = Math.random() * 100 + 'vh';
+            fish.style.left = Math.random() * 100 + 'vw';
+            body.appendChild(fish);
+        }
+    </script>
 </body>
 </html>
